@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050816">
+<meta name="description" content="Planetário 2026 da Escola Américo Franco: descubra a foto espacial do seu aniversário, explore o Sistema Solar e muito mais.">
+<title>Planetário 2026 · Escola Américo Franco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root{
+  --bg:#050816; --bg2:#0b1030; --card:rgba(255,255,255,.06); --card-b:rgba(255,255,255,.12);
+  --txt:#e8ecff; --muted:#a3acd6;
+  --cyan:#3be8ff; --violet:#9b6bff; --pink:#ff5fd2; --gold:#ffd166;
+  --glow-c:0 0 12px rgba(59,232,255,.55),0 0 32px rgba(59,232,255,.25);
+  --glow-v:0 0 12px rgba(155,107,255,.55),0 0 32px rgba(155,107,255,.25);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,sans-serif;color:var(--txt);line-height:1.6;
+  background:radial-gradient(ellipse at 20% 0%,#1a1250 0%,transparent 55%),
+             radial-gradient(ellipse at 90% 40%,#2a0f4d 0%,transparent 50%),
+             linear-gradient(180deg,var(--bg),var(--bg2) 60%,#07051a);
+  background-attachment:fixed;min-height:100vh;overflow-x:hidden;
+}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+main,header,footer,nav{position:relative;z-index:1}
+h1,h2,h3,.orb{font-family:'Orbitron',sans-serif}
+a{color:var(--cyan)}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 18px}
+section{padding:56px 0}
+.sec-title{display:flex;align-items:center;gap:10px;font-size:clamp(1.3rem,5vw,1.9rem);margin-bottom:8px;
+  text-shadow:var(--glow-c)}
+.sec-title i,.sec-title svg{color:var(--cyan);flex:none}
+.sec-sub{color:var(--muted);margin-bottom:26px;max-width:62ch}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* top nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(5,8,22,.72);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--card-b)}
+nav .wrap{display:flex;gap:6px;overflow-x:auto;padding:10px 18px;scrollbar-width:none}
+nav .wrap::-webkit-scrollbar{display:none}
+nav a{flex:none;text-decoration:none;color:var(--muted);font-size:.85rem;font-weight:600;
+  padding:7px 13px;border-radius:99px;border:1px solid transparent;transition:.25s}
+nav a:hover,nav a:active{color:#fff;border-color:var(--card-b);background:var(--card)}
+
+/* hero */
+.hero{padding:64px 0 40px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--cyan);border:1px solid rgba(59,232,255,.4);padding:6px 14px;border-radius:99px;
+  background:rgba(59,232,255,.08);box-shadow:var(--glow-c)}
+.hero h1{font-size:clamp(2rem,9vw,4rem);font-weight:900;line-height:1.1;margin:22px 0 16px;
+  background:linear-gradient(90deg,#fff,var(--cyan) 40%,var(--violet) 75%,var(--pink));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 18px rgba(155,107,255,.45))}
+.hero h1 small{display:block;font-size:.42em;font-weight:700;letter-spacing:.12em;margin-top:8px}
+.hero p{color:var(--muted);max-width:54ch;margin:0 auto 28px;font-size:1.05rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font:inherit;font-weight:700;cursor:pointer;
+  border:0;border-radius:14px;padding:14px 22px;color:#06101f;text-decoration:none;
+  background:linear-gradient(135deg,var(--cyan),#7aa8ff 55%,var(--violet));
+  box-shadow:var(--glow-c);transition:transform .2s,box-shadow .2s,filter .2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--card);color:var(--txt);border:1px solid var(--card-b);box-shadow:none}
+.btn[disabled]{opacity:.6;cursor:wait}
+.hero-planet{width:130px;height:130px;border-radius:50%;margin:0 auto 6px;position:relative;
+  background:radial-gradient(circle at 30% 28%,#c7a6ff,#6a3fe0 45%,#1a0b55 80%);
+  box-shadow:inset -14px -10px 28px rgba(0,0,0,.55),0 0 50px rgba(155,107,255,.5);animation:float 6s ease-in-out infinite}
+.hero-planet::after{content:"";position:absolute;left:-38%;right:-38%;top:42%;height:22%;border-radius:50%;
+  border:3px solid rgba(59,232,255,.7);transform:rotate(-16deg);box-shadow:var(--glow-c)}
+@keyframes float{50%{transform:translateY(-12px)}}
+
+/* cards */
+.glass{background:var(--card);border:1px solid var(--card-b);border-radius:20px;backdrop-filter:blur(8px)}
+
+/* APOD */
+.apod-box{padding:22px}
+.apod-form{display:flex;flex-direction:column;gap:12px}
+.apod-form label{font-weight:600}
+.date-input{width:100%;font:inherit;font-size:1.05rem;color:var(--txt);background:rgba(0,0,0,.35);
+  border:1px solid var(--card-b);border-radius:14px;padding:14px;color-scheme:dark;transition:.2s}
+.date-input:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow-c)}
+.apod-actions{display:flex;gap:10px;flex-wrap:wrap}
+.apod-actions .btn{flex:1 1 200px}
+#apod-out{margin-top:22px}
+.spinner{width:62px;height:62px;border-radius:50%;margin:30px auto 10px;border:3px solid rgba(255,255,255,.1);
+  border-top-color:var(--cyan);border-right-color:var(--violet);animation:spin 1s linear infinite;position:relative;
+  box-shadow:var(--glow-c)}
+.spinner::after{content:"";position:absolute;width:10px;height:10px;border-radius:50%;background:var(--gold);
+  top:-6px;left:50%;margin-left:-5px;box-shadow:0 0 12px var(--gold)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.center{text-align:center;color:var(--muted)}
+.apod-result{animation:pop .6s ease both}
+@keyframes pop{from{opacity:0;transform:scale(.96) translateY(12px)}}
+.apod-media{width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--card-b);background:#000;
+  box-shadow:0 0 40px rgba(155,107,255,.25)}
+.apod-media{max-width:480px;margin:0 auto;position:relative}
+.apod-media img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain;background:#000}
+.apod-media a.zl{display:block;cursor:zoom-in}
+.apod-media .zoom{position:absolute;right:10px;bottom:10px;display:flex;align-items:center;gap:6px;font-size:.74rem;font-weight:600;
+  padding:6px 11px;border-radius:99px;background:rgba(5,8,22,.78);border:1px solid var(--card-b);color:#fff;pointer-events:none;backdrop-filter:blur(6px)}
+.apod-media .zoom svg{width:14px;height:14px}
+.apod-media .ratio{padding-top:56.25%}
+.astro-photo{width:104px;height:104px;border-radius:50%;margin-bottom:12px;overflow:hidden;position:relative;
+  border:2px solid var(--cyan);box-shadow:var(--glow-c);background:linear-gradient(145deg,#2a1a7a,#0e3b66);
+  display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-size:1.5rem;color:#fff}
+.astro-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;animation:pop .6s ease both}
+.apod-media .ratio{position:relative;padding-top:56.25%}
+.apod-media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.apod-date{margin-top:16px;color:var(--gold);font-weight:600;font-size:.9rem;display:flex;gap:8px;align-items:center}
+.apod-title{font-size:clamp(1.2rem,5vw,1.7rem);margin:6px 0 12px;text-shadow:var(--glow-v)}
+.apod-text{color:#cfd5f5;font-size:1rem}
+.apod-note{font-size:.8rem;color:var(--muted);margin-top:10px}
+.apod-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.apod-btns .btn{padding:11px 16px;font-size:.92rem}
+.err{border:1px solid rgba(255,95,210,.5);background:rgba(255,95,210,.08);padding:16px;border-radius:14px}
+
+/* planets */
+.planets{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:720px){.planets{grid-template-columns:repeat(4,1fr)}}
+.planet{padding:0;text-align:center;cursor:pointer;color:inherit;font:inherit;display:flex;flex-direction:column;
+  overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s;align-self:start}
+.planet:hover{transform:translateY(-4px);border-color:rgba(59,232,255,.5);box-shadow:var(--glow-c)}
+.planet-head{padding:20px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;
+  background:none;border:0;color:inherit;font:inherit;cursor:pointer}
+.sphere{width:74px;height:74px;border-radius:50%;position:relative;flex:none;
+  box-shadow:inset -9px -7px 16px rgba(0,0,0,.55),0 0 22px var(--g,rgba(255,255,255,.25));transition:transform .5s}
+.planet:hover .sphere{transform:rotate(12deg) scale(1.07)}
+.sphere.ring::after{content:"";position:absolute;left:-34%;right:-34%;top:40%;height:24%;border-radius:50%;
+  border:3px solid rgba(255,225,160,.8);transform:rotate(-18deg)}
+.planet h3{font-size:.95rem;letter-spacing:.04em}
+.hint{font-size:.72rem;color:var(--muted);display:flex;align-items:center;gap:4px}
+.hint svg{width:13px;height:13px;transition:transform .3s}
+.planet.open .hint svg{transform:rotate(180deg)}
+.pdetail{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s ease}
+.planet.open .pdetail{grid-template-rows:1fr}
+.pdetail>div{overflow:hidden}
+.pinfo{padding:0 12px 16px;text-align:left;font-size:.82rem;color:#cfd5f5;border-top:1px dashed var(--card-b);margin-top:2px;padding-top:12px}
+.pinfo dt{color:var(--cyan);font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
+.pinfo dd{margin:0}
+.pinfo .fun{margin-top:10px;padding:9px 10px;border-radius:12px;background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3)}
+
+/* extras: weight */
+.tool{padding:22px;margin-top:22px}
+.tool h3{display:flex;gap:8px;align-items:center;margin-bottom:6px;font-size:1.05rem}
+.tool h3 svg{color:var(--gold)}
+.row{display:flex;gap:10px;margin:12px 0}
+.row input{flex:1;min-width:0;font:inherit;color:var(--txt);background:rgba(0,0,0,.35);border:1px solid var(--card-b);
+  border-radius:14px;padding:12px 14px}
+.row input:focus{outline:none;border-color:var(--cyan);box-shadow:var(--glow-c)}
+.wlist{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+@media(min-width:620px){.wlist{grid-template-columns:repeat(3,1fr)}}
+.wi{padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--card-b);font-size:.9rem;
+  display:flex;justify-content:space-between;gap:8px;animation:pop .4s ease both}
+.wi b{color:var(--cyan)}
+
+/* brasileiros */
+.astro-grid{display:grid;gap:16px}
+@media(min-width:760px){.astro-grid{grid-template-columns:1fr 1fr}}
+.astro{padding:22px;position:relative;overflow:hidden}
+.astro::before{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;
+  background:radial-gradient(circle,rgba(155,107,255,.35),transparent 70%)}
+.astro .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 11px;border-radius:99px;background:rgba(255,209,102,.14);color:var(--gold);border:1px solid rgba(255,209,102,.4)}
+.astro h3{margin:12px 0 4px;font-size:1.25rem}
+.astro .sub{color:var(--muted);font-size:.88rem;margin-bottom:10px}
+.astro ul{list-style:none;display:grid;gap:7px;font-size:.93rem}
+.astro li{display:flex;gap:9px}
+.astro li svg{flex:none;width:17px;height:17px;margin-top:4px;color:var(--cyan)}
+.br-card{margin-top:16px;padding:22px;border-color:rgba(59,232,255,.3)}
+.br-card h3{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.br-grid{display:grid;gap:10px}
+@media(min-width:700px){.br-grid{grid-template-columns:repeat(2,1fr)}}
+.br-item{padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--card-b);font-size:.92rem}
+.br-item b{color:var(--cyan);display:block;margin-bottom:2px}
+
+/* facts */
+.facts{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:620px){.facts{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.facts{grid-template-columns:repeat(4,1fr)}}
+.fact{perspective:900px;height:150px;cursor:pointer;border:0;background:none;font:inherit;color:inherit;text-align:center}
+.fact-in{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.fact.flip .fact-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:14px;border:1px solid var(--card-b)}
+.face.front{background:linear-gradient(145deg,rgba(155,107,255,.25),rgba(59,232,255,.1));font-weight:600;font-size:.95rem}
+.face.front svg{color:var(--gold);width:26px;height:26px}
+.face.back{transform:rotateY(180deg);background:linear-gradient(145deg,rgba(59,232,255,.16),rgba(255,95,210,.14));
+  font-size:.88rem;line-height:1.45;box-shadow:var(--glow-c)}
+/* (sem "filter" no hover: ele achatava o 3D e mostrava o verso espelhado) */
+.fact:hover .face{box-shadow:0 0 26px rgba(155,107,255,.5)}
+
+/* quiz */
+.quiz{padding:22px}
+.qbar{height:6px;border-radius:9px;background:rgba(255,255,255,.1);overflow:hidden;margin-bottom:16px}
+.qbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--violet));transition:width .5s}
+.qq{font-size:1.1rem;font-weight:600;margin-bottom:14px}
+.opts{display:grid;gap:10px}
+.opt{font:inherit;color:var(--txt);text-align:left;padding:13px 15px;border-radius:14px;cursor:pointer;
+  background:rgba(255,255,255,.05);border:1px solid var(--card-b);transition:.2s}
+.opt:hover:not([disabled]){border-color:var(--cyan);background:rgba(59,232,255,.08)}
+.opt.ok{border-color:#4dffa6;background:rgba(77,255,166,.14);box-shadow:0 0 16px rgba(77,255,166,.3)}
+.opt.no{border-color:#ff5f87;background:rgba(255,95,135,.12);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.qexp{margin-top:12px;color:#cfd5f5;font-size:.9rem;min-height:1.4em}
+.qnext{margin-top:14px}
+.score{text-align:center;padding:10px 0}
+.score .big{font-family:'Orbitron';font-size:2.6rem;color:var(--gold);text-shadow:0 0 20px rgba(255,209,102,.6)}
+
+/* videos */
+.vids{display:grid;gap:16px}
+@media(min-width:760px){.vids{grid-template-columns:repeat(2,1fr)}}
+.vid{overflow:hidden}
+.vthumb{position:relative;padding-top:56.25%;background:linear-gradient(135deg,#1a1250,#2a0f4d);cursor:pointer;border:0;width:100%;display:block;color:inherit}
+.vthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vthumb .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,8,22,.35);transition:.3s}
+.vthumb:hover .play{background:rgba(5,8,22,.1)}
+.vthumb .play span{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--cyan),var(--violet));box-shadow:var(--glow-c);color:#06101f}
+.vthumb iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vbody{padding:14px 16px 18px}
+.vbody h3{font-size:1rem;margin-bottom:4px}
+.vbody p{color:var(--muted);font-size:.88rem}
+.vbody a{font-size:.85rem;font-weight:600;display:inline-flex;gap:6px;align-items:center;margin-top:8px}
+
+/* footer */
+footer{padding:44px 0 60px;text-align:center;border-top:1px solid var(--card-b);margin-top:30px;color:var(--muted);font-size:.9rem}
+footer .orb{color:var(--txt);font-size:1rem;margin-bottom:6px}
+
+/* alien */
+#alien{position:fixed;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:50;display:flex;flex-direction:column;
+  align-items:flex-end;gap:8px;pointer-events:none;max-width:calc(100vw - 24px)}
+#bubble{pointer-events:auto;position:relative;max-width:260px;background:#fff;color:#14163a;padding:14px 38px 14px 16px;
+  border-radius:18px 18px 4px 18px;font-weight:600;font-size:.92rem;line-height:1.4;
+  box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 24px rgba(59,232,255,.5);
+  opacity:0;transform:translateY(16px) scale(.85);transform-origin:bottom right;transition:.5s cubic-bezier(.2,1.3,.4,1)}
+#bubble.show{opacity:1;transform:none}
+#bubble .x{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;border:0;background:#e8ecff;color:#14163a;
+  cursor:pointer;display:flex;align-items:center;justify-content:center}
+#bubble .x svg{width:14px;height:14px}
+#alienBtn{pointer-events:auto;border:0;background:none;cursor:pointer;width:84px;height:84px;padding:0;
+  transform:translateX(130%);transition:transform .9s cubic-bezier(.2,1.2,.3,1);filter:drop-shadow(0 0 14px rgba(77,255,166,.6))}
+#alienBtn.in{transform:none;animation:bob 3.2s ease-in-out infinite .9s}
+#alienBtn.peek{transform:translateX(42%)}
+@keyframes bob{50%{transform:translateY(-7px) rotate(-3deg)}}
+.wave{transform-origin:78px 78px;animation:wave 1s ease-in-out infinite}
+@keyframes wave{50%{transform:rotate(-24deg)}}
+.blink{animation:blink 4s infinite;transform-origin:center}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+
+/* ================= MAIS ANIMAÇÕES ================= */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));
+  box-shadow:0 0 12px var(--cyan)}
+.nebula{position:fixed;z-index:0;pointer-events:none;border-radius:50%;filter:blur(70px);opacity:.35}
+.nebula.n1{width:360px;height:360px;left:-120px;top:12%;background:#5b2bff;animation:drift1 22s ease-in-out infinite alternate}
+.nebula.n2{width:320px;height:320px;right:-120px;top:48%;background:#ff3fb4;animation:drift2 26s ease-in-out infinite alternate}
+.nebula.n3{width:280px;height:280px;left:30%;bottom:-120px;background:#17d4ff;animation:drift1 30s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(90px,70px) scale(1.25)}}
+@keyframes drift2{to{transform:translate(-100px,-60px) scale(1.2)}}
+.shoot{position:fixed;z-index:0;pointer-events:none;width:120px;height:2px;opacity:0;
+  background:linear-gradient(90deg,transparent,#fff);transform:rotate(25deg);border-radius:2px;box-shadow:0 0 8px #fff}
+.shoot.go{animation:shoot 1.3s ease-out forwards}
+@keyframes shoot{0%{opacity:0;transform:translate(0,0) rotate(25deg)}15%{opacity:1}100%{opacity:0;transform:translate(340px,160px) rotate(25deg)}}
+
+.hero{overflow:hidden}
+.moon{position:absolute;width:24px;height:24px;border-radius:50%;top:50%;left:50%;margin:-12px;
+  background:radial-gradient(circle at 30% 30%,#fff,#b7bdd6 55%,#5a6082);box-shadow:0 0 14px rgba(255,255,255,.6);
+  animation:orbit 7s linear infinite}
+@keyframes orbit{from{transform:rotate(0) translateX(98px) rotate(0)}to{transform:rotate(360deg) translateX(98px) rotate(-360deg)}}
+.floaters span{position:absolute;font-size:1.7rem;opacity:.85;filter:drop-shadow(0 0 10px rgba(59,232,255,.6));animation:drift 9s ease-in-out infinite alternate}
+.floaters span:nth-child(1){left:8%;top:22%}
+.floaters span:nth-child(2){right:9%;top:16%;animation-delay:-3s;animation-duration:11s}
+.floaters span:nth-child(3){left:14%;bottom:12%;animation-delay:-5s}
+.floaters span:nth-child(4){right:12%;bottom:18%;animation-delay:-2s;animation-duration:13s}
+@keyframes drift{from{transform:translate(0,0) rotate(-8deg)}to{transform:translate(18px,-26px) rotate(10deg)}}
+.rocket{position:absolute;left:-60px;bottom:10%;font-size:2rem;opacity:0;pointer-events:none;animation:fly 14s linear infinite 3s;
+  filter:drop-shadow(0 0 12px rgba(255,150,60,.8))}
+@keyframes fly{0%{transform:translate(0,0) rotate(0);opacity:0}6%{opacity:1}50%{opacity:1}60%,100%{transform:translate(calc(100vw + 120px),-260px) rotate(0);opacity:0}}
+.hero h1{background-size:220% auto;animation:gshift 7s ease-in-out infinite alternate}
+@keyframes gshift{to{background-position:100% 0}}
+.badge{animation:glowpulse 3s ease-in-out infinite}
+@keyframes glowpulse{50%{box-shadow:0 0 26px rgba(59,232,255,.9),0 0 50px rgba(59,232,255,.35)}}
+.btn{position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;transform:skewX(-20deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transition:left .6s}
+.btn:hover::after{left:130%}
+.hero .btn{animation:cta 2.6s ease-in-out infinite}
+@keyframes cta{50%{box-shadow:0 0 34px rgba(59,232,255,.85),0 0 60px rgba(155,107,255,.4)}}
+.sec-title svg{animation:wob 4s ease-in-out infinite}
+@keyframes wob{50%{transform:rotate(14deg) scale(1.15)}}
+
+/* contadores */
+.stats{padding:10px 0 0}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:720px){.stat-grid{grid-template-columns:repeat(4,1fr)}}
+.stat{padding:18px 10px;text-align:center}
+.stat b{display:block;font-family:'Orbitron';font-size:clamp(1.3rem,6vw,1.9rem);color:var(--cyan);text-shadow:var(--glow-c)}
+.stat span{font-size:.78rem;color:var(--muted)}
+
+/* esferas flutuando e imagem NASA */
+.sphere{animation:bobS 5s ease-in-out infinite}
+.planets>*:nth-child(2n) .sphere{animation-delay:-1.6s}
+.planets>*:nth-child(3n) .sphere{animation-delay:-3.1s}
+@keyframes bobS{50%{transform:translateY(-6px)}}
+.planet:hover .sphere{animation-play-state:paused}
+.apod-media{min-height:200px;background:linear-gradient(110deg,#0a0e28 30%,#1a1f4a 50%,#0a0e28 70%);background-size:200% 100%;animation:sk 1.4s linear infinite}
+.apod-media.ok{animation:none;min-height:0;background:#000}
+@keyframes sk{to{background-position:-200% 0}}
+.apod-media.ok img{animation:kb 20s ease-in-out infinite alternate;transform-origin:center}
+@keyframes kb{to{transform:scale(1.06)}}
+.apod-media.ok{overflow:hidden}
+
+/* fagulhas ao tocar */
+.spark{position:fixed;z-index:80;pointer-events:none;width:8px;height:8px;border-radius:50%;
+  background:var(--c,#fff);box-shadow:0 0 10px var(--c,#fff);animation:sp .75s ease-out forwards}
+@keyframes sp{to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+
+/* ET: convite para clicar */
+#alienBtn.call::before{content:"";position:absolute;inset:-4px;border-radius:50%;border:3px solid rgba(77,255,166,.8);
+  animation:ring 1.4s ease-out infinite}
+@keyframes ring{from{transform:scale(.7);opacity:1}to{transform:scale(1.5);opacity:0}}
+#bubble.call{animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateY(-5px)}}
+
+/* vídeos */
+.chan{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(255,209,102,.4);background:rgba(255,209,102,.1);padding:3px 10px;border-radius:99px;margin-bottom:8px}
+.vthumb .vname{position:absolute;left:14px;bottom:12px;right:14px;text-align:left;font-family:'Orbitron';font-size:.95rem;
+  text-shadow:0 2px 10px #000;z-index:1}
+.vid{transition:transform .3s,box-shadow .3s}
+.vid:hover{transform:translateY(-5px);box-shadow:var(--glow-v)}
+
+.rvc{opacity:0}
+.rvc.in{opacity:1;animation:rvIn .7s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes rvIn{from{opacity:0;transform:translateY(28px) scale(.94)}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}.reveal,.rvc{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<div class="nebula n1" aria-hidden="true"></div><div class="nebula n2" aria-hidden="true"></div><div class="nebula n3" aria-hidden="true"></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+
+<nav aria-label="Seções">
+  <div class="wrap">
+    <a href="#telescopio">🔭 Telescópio</a>
+    <a href="#sistema-solar">🪐 Sistema Solar</a>
+    <a href="#brasil">🇧🇷 Brasil</a>
+    <a href="#curiosidades">💡 Curiosidades</a>
+    <a href="#quiz">🧠 Quiz</a>
+    <a href="#videos">🎬 Vídeos</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="floaters" aria-hidden="true"><span>🛰️</span><span>☄️</span><span>🌙</span><span>👨‍🚀</span></div>
+  <div class="rocket" aria-hidden="true">🚀</div>
+  <div class="wrap">
+    <div class="hero-planet" aria-hidden="true"><span class="moon"></span></div>
+    <span class="badge"><i data-lucide="sparkles" style="width:15px;height:15px"></i> Feira de Ciências</span>
+    <h1>Planetário 2026 <small>Escola Américo Franco</small></h1>
+    <p>Aponte o telescópio para o passado: descubra qual imagem do Universo a NASA registrou no dia em que você nasceu — e depois explore planetas, astronautas e curiosidades do cosmos.</p>
+    <a class="btn" href="#telescopio"><i data-lucide="telescope"></i> Começar a viagem</a>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="wrap">
+    <div class="stat-grid">
+      <div class="glass stat reveal"><b data-to="8">0</b><span>planetas no Sistema Solar</span></div>
+      <div class="glass stat reveal"><b data-to="400" data-suf=" km">0</b><span>altura da Estação Espacial</span></div>
+      <div class="glass stat reveal"><b data-to="28000" data-suf=" km/h">0</b><span>velocidade da ISS</span></div>
+      <div class="glass stat reveal"><b data-to="13.8" data-dec="1" data-suf=" bi">0</b><span>anos de idade do Universo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- B. Hubble Birthday -->
+<section id="telescopio">
+  <div class="wrap reveal">
+    <h2 class="sec-title"><i data-lucide="telescope"></i> O que o Hubble registrou no seu aniversário?</h2>
+    <p class="sec-sub">Digite dia e mês para consultar a imagem de aniversário do Telescópio Espacial Hubble no banco de dados estático.</p>
+    <div class="glass apod-box">
+      <form class="apod-form" id="apodForm">
+        <label for="date">Escolha a data</label>
+        <input class="date-input" type="text" id="date" inputmode="numeric" autocomplete="bday-day"
+               placeholder="DD/MM (ex.: 30/07)" pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])" maxlength="5"
+               aria-describedby="dateHelp" required>
+        <small id="dateHelp" class="apod-note">Digite dia e mês. O ano não será utilizado.</small>
+        <div class="apod-actions">
+          <button class="btn" type="submit" id="goBtn"><i data-lucide="rocket"></i> Descobrir Foto Espacial</button>
+          <button class="btn ghost" type="button" id="randBtn"><i data-lucide="dices"></i> Surpreenda-me</button>
+        </div>
+      </form>
+      <div id="apod-out" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- C. Sistema solar -->
+<section id="sistema-solar">
+  <div class="wrap reveal">
+    <h2 class="sec-title"><i data-lucide="orbit"></i> Nosso Sistema Solar</h2>
+    <p class="sec-sub">Toque em um planeta para abrir a ficha técnica e uma curiosidade.</p>
+    <div class="planets" id="planets"></div>
+
+    <div class="glass tool">
+      <h3><i data-lucide="scale"></i> Quanto você pesaria em outros mundos?</h3>
+      <p class="sec-sub" style="margin-bottom:0">Digite sua massa em kg. (O peso muda com a gravidade, a massa não!)</p>
+      <div class="row">
+        <input type="number" id="kg" inputmode="decimal" min="1" max="300" placeholder="Ex.: 45">
+        <button class="btn" id="kgBtn" type="button">Calcular</button>
+      </div>
+      <div class="wlist" id="wlist"></div>
+    </div>
+  </div>
+</section>
+
+<!-- D. Brasil -->
+<section id="brasil">
+  <div class="wrap reveal">
+    <h2 class="sec-title"><i data-lucide="flag"></i> Astronautas Brasileiros e a Ciência no Brasil</h2>
+    <p class="sec-sub">Dois brasileiros já viajaram ao espaço — em missões bem diferentes.</p>
+    <div class="astro-grid">
+      <article class="glass astro">
+        <div class="astro-photo" data-name="Marcos Pontes"><span>MP</span></div>
+        <span class="tag">1º brasileiro no espaço</span>
+        <h3>Marcos Pontes</h3>
+        <p class="sub">Astronauta e tenente-coronel da Força Aérea Brasileira · Missão Centenário (2006)</p>
+        <ul>
+          <li><i data-lucide="rocket"></i><span>Decolou em 29 de março de 2006 (noite no horário de Brasília) na nave russa Soyuz TMA-8, do Cazaquistão.</span></li>
+          <li><i data-lucide="satellite"></i><span>Passou cerca de 8 dias na Estação Espacial Internacional (ISS).</span></li>
+          <li><i data-lucide="flask-conical"></i><span>Realizou 8 experimentos científicos brasileiros em microgravidade.</span></li>
+          <li><i data-lucide="plane"></i><span>A missão homenageou os 100 anos do voo do 14-Bis, de Santos Dumont.</span></li>
+        </ul>
+      </article>
+      <article class="glass astro">
+        <div class="astro-photo" data-name="Victor Hespanha"><span>VH</span></div>
+        <span class="tag">2º brasileiro no espaço</span>
+        <h3>Victor Hespanha</h3>
+        <p class="sub">Engenheiro de produção de Belo Horizonte (MG) · Missão NS-21 da Blue Origin (2022)</p>
+        <ul>
+          <li><i data-lucide="rocket"></i><span>Voou em 4 de junho de 2022, no foguete New Shepard, a partir do Texas (EUA).</span></li>
+          <li><i data-lucide="timer"></i><span>O voo suborbital durou cerca de 10 minutos, passando de 100 km de altitude.</span></li>
+          <li><i data-lucide="sparkles"></i><span>Foi o primeiro turista espacial brasileiro e sentiu a ausência de gravidade.</span></li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="glass br-card">
+      <h3><i data-lucide="satellite-dish" style="color:var(--cyan)"></i> A contribuição brasileira para o espaço</h3>
+      <div class="br-grid">
+        <div class="br-item"><b>Agência Espacial Brasileira (AEB)</b>Criada em 1994 para coordenar o Programa Espacial Brasileiro.</div>
+        <div class="br-item"><b>INPE</b>O Instituto Nacional de Pesquisas Espaciais desenvolve satélites e monitora o clima e o desmatamento.</div>
+        <div class="br-item"><b>Centro de Lançamento de Alcântara (MA)</b>Muito próximo da linha do Equador, o que ajuda a economizar combustível nos lançamentos.</div>
+        <div class="br-item"><b>Satélites CBERS e Amazônia-1</b>O CBERS é feito em parceria com a China; o Amazônia-1 (2021) foi o primeiro satélite de observação da Terra projetado, integrado e operado pelo Brasil.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- E. Curiosidades -->
+<section id="curiosidades">
+  <div class="wrap reveal">
+    <h2 class="sec-title"><i data-lucide="lightbulb"></i> Curiosidades Espaciais</h2>
+    <p class="sec-sub">Toque nos balões para revelar fatos que parecem mentira, mas são verdade!</p>
+    <div class="facts" id="facts"></div>
+  </div>
+</section>
+
+<!-- Quiz -->
+<section id="quiz">
+  <div class="wrap reveal">
+    <h2 class="sec-title"><i data-lucide="brain"></i> Quiz do Astronauta</h2>
+    <p class="sec-sub">Teste o que você aprendeu. Acertou tudo? Você já pode se candidatar à NASA! 😉</p>
+    <div class="glass quiz" id="quizBox"></div>
+  </div>
+</section>
+
+<!-- F. Vídeos -->
+<section id="videos">
+  <div class="wrap reveal">
+    <h2 class="sec-title"><i data-lucide="clapperboard"></i> Galeria de Vídeos</h2>
+    <p class="sec-sub">Toque para assistir sem sair do site.</p>
+    <div class="vids" id="vids"></div>
+  </div>
+</section>
+
+<!-- G. Rodapé -->
+<footer>
+  <div class="wrap">
+    <div class="orb">Planetário 2026 · Escola Américo Franco</div>
+    <p>Edição 2026 · Feira de Ciências</p>
+    <p style="margin-top:10px">Fotos dos astronautas: Wikipédia/Wikimedia Commons. Imagens e dados: <a href="https://apod.nasa.gov" target="_blank" rel="noopener"><a href="https://imagine.gsfc.nasa.gov/docs/hst_bday/" target="_blank" rel="noopener">Hubble Birthday da NASA</a>.<br>Site desenvolvido com carinho pela equipe organizadora do Planetário 2026.</p>
+  </div>
+</footer>
+
+<!-- Alien -->
+<div id="alien">
+  <div id="bubble" role="status">
+    <span id="bubbleTxt">Olá! Bem-vindo ao Planetário 2026 da Escola Américo Franco! 🚀</span>
+    <button class="x" id="bubbleX" aria-label="Fechar mensagem"><i data-lucide="x"></i></button>
+  </div>
+  <button id="alienBtn" aria-label="Alien amigo — toque para uma curiosidade">
+    <svg viewBox="0 0 100 110" width="100%" height="100%" aria-hidden="true">
+      <defs><radialGradient id="ag" cx="40%" cy="30%"><stop offset="0" stop-color="#b8ffd9"/><stop offset="1" stop-color="#2fd77f"/></radialGradient></defs>
+      <line x1="34" y1="22" x2="26" y2="6" stroke="#2fd77f" stroke-width="3" stroke-linecap="round"/><circle cx="25" cy="5" r="4.5" fill="#ffd166"/>
+      <line x1="66" y1="22" x2="74" y2="6" stroke="#2fd77f" stroke-width="3" stroke-linecap="round"/><circle cx="75" cy="5" r="4.5" fill="#ffd166"/>
+      <path d="M30 78 Q50 100 70 78 L66 96 Q50 108 34 96Z" fill="#2fd77f"/>
+      <ellipse cx="50" cy="48" rx="35" ry="33" fill="url(#ag)"/>
+      <g class="blink"><ellipse cx="36" cy="48" rx="10" ry="13" fill="#10142e" transform="rotate(-18 36 48)"/><ellipse cx="64" cy="48" rx="10" ry="13" fill="#10142e" transform="rotate(18 64 48)"/>
+      <circle cx="33" cy="43" r="3" fill="#fff"/><circle cx="61" cy="43" r="3" fill="#fff"/></g>
+      <path d="M40 68 Q50 76 60 68" fill="none" stroke="#10142e" stroke-width="3" stroke-linecap="round"/>
+      <g class="wave"><path d="M78 78 Q92 70 92 56" fill="none" stroke="#2fd77f" stroke-width="6" stroke-linecap="round"/><circle cx="92" cy="54" r="5" fill="#2fd77f"/></g>
+    </svg>
+  </button>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+// Base estática do projeto Hubble30 (CSV no GitHub; imagens hospedadas no arquivo oficial NASA).
+const HUBBLE_CSV_URL = 'https://raw.githubusercontent.com/dnhn/hubble30/master/data.csv';
+const HUBBLE_IMAGE_BASE = 'https://imagine.gsfc.nasa.gov/hst_bday/images/';
+
+/* ================= HELPERS ================= */
+const $ = (s, r=document) => r.querySelector(s);
+const icons = () => window.lucide && lucide.createIcons();
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const decodeHtml = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+const fmtDate = iso => { const [y,m,d] = iso.split('-'); return `${d}/${m}/${y}`; };
+// "hoje" no fuso dos EUA (a NASA publica a foto do dia por lá)
+const todayUS = () => new Date().toLocaleDateString('en-CA', {timeZone:'America/New_York'});
+
+/* ================= ESTRELAS ================= */
+(function stars(){
+  const c = $('#stars'), x = c.getContext('2d');
+  let w, h, S = [];
+  const init = () => {
+    w = c.width = innerWidth; h = c.height = innerHeight;
+    const n = Math.min(160, Math.floor(w*h/9000));
+    S = Array.from({length:n}, () => ({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.4+.2, p:Math.random()*6.28, s:Math.random()*.02+.005}));
+  };
+  const draw = () => {
+    x.clearRect(0,0,w,h);
+    for (const s of S){
+      s.p += s.s;
+      x.globalAlpha = .35 + .65*Math.abs(Math.sin(s.p));
+      x.fillStyle = '#fff';
+      x.beginPath(); x.arc(s.x, s.y, s.r, 0, 6.28); x.fill();
+    }
+    requestAnimationFrame(draw);
+  };
+  addEventListener('resize', init); init();
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) draw();
+  else { draw(); }
+})();
+
+/* ================= REVEAL ================= */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.08});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ================= ALIEN ================= */
+(function alien(){
+  const btn = $('#alienBtn'), bub = $('#bubble'), txt = $('#bubbleTxt');
+  const WELCOME = 'Olá! Bem-vindo ao Planetário 2026 da Escola Américo Franco! 🚀';
+  let timer;
+  const show = (msg, ms=9000) => {
+    clearTimeout(timer);
+    txt.textContent = msg; btn.classList.remove('peek'); bub.classList.add('show');
+    timer = setTimeout(hide, ms);
+  };
+  const hide = () => { bub.classList.remove('show'); setTimeout(() => btn.classList.add('peek'), 300); };
+  let greeted = false;
+  // 1º balão: convida a pessoa a clicar no ET (fica na tela até ela clicar)
+  const call = () => {
+    clearTimeout(timer);
+    txt.textContent = 'Psiu! 👋 Clique em mim para receber uma mensagem especial!';
+    btn.classList.remove('peek'); btn.classList.add('call');
+    bub.classList.add('show', 'call');
+  };
+  setTimeout(() => { btn.classList.add('in'); setTimeout(call, 1000); }, 600);
+  const onAlien = () => {
+    btn.classList.remove('call'); bub.classList.remove('call');
+    sparkle(btn.getBoundingClientRect().left + 40, btn.getBoundingClientRect().top + 40, 14);
+    if (!greeted){ greeted = true; show(WELCOME, 10000); }
+    else { const f = FACTS[Math.floor(Math.random()*FACTS.length)]; show('Você sabia? ' + f.back, 11000); }
+  };
+  btn.addEventListener('click', onAlien);
+  bub.addEventListener('click', e => { if (e.target.closest('.x')) return; if (!greeted) onAlien(); });
+  $('#bubbleX').addEventListener('click', () => {
+    clearTimeout(timer); bub.classList.remove('call'); hide(); // o ET continua pulsando; ao tocar nele vem a mensagem de boas-vindas
+  });
+})();
+
+/* ================= HUBBLE BIRTHDAY (BASE ESTÁTICA HUBBLE30) ================= */
+const dateEl = $('#date');
+const out = $('#apod-out'), goBtn = $('#goBtn');
+let hubbleDataPromise;
+
+function normalizeBirthday(raw){
+  const match = String(raw || '').trim().match(/^\s*(\d{1,2})\s*[/.-]\s*(\d{1,2})\s*$/);
+  if (!match) throw new Error('Digite a data no formato DD/MM, por exemplo 30/07.');
+  const day = Number(match[1]), month = Number(match[2]);
+  const maxDays = [31,29,31,30,31,30,31,31,30,31,30,31][month-1];
+  if (!maxDays || day < 1 || day > maxDays) throw new Error('Essa data não é válida. Confira o dia e o mês.');
+  return `${String(day).padStart(2,'0')}/${String(month).padStart(2,'0')}`;
+}
+
+// Leitor CSV que respeita campos entre aspas e aspas escapadas (""), inclusive descrições com vírgulas.
+function parseCsv(text){
+  const rows = [];
+  let row = [], field = '', quoted = false;
+  for (let i = 0; i < text.length; i++){
+    const ch = text[i];
+    if (quoted){
+      if (ch === '"' && text[i+1] === '"'){ field += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else field += ch;
+    } else {
+      if (ch === '"') quoted = true;
+      else if (ch === ','){ row.push(field); field = ''; }
+      else if (ch === '\n'){
+        row.push(field); field = '';
+        if (row.some(value => value.trim() !== '')) rows.push(row);
+        row = [];
+      } else if (ch !== '\r') field += ch;
+    }
+  }
+  if (field.length || row.length){ row.push(field); if (row.some(value => value.trim() !== '')) rows.push(row); }
+  if (rows.length < 2) throw new Error('A base Hubble30 está vazia ou em formato inválido.');
+  const headers = rows.shift().map(h => h.trim());
+  return rows.map(values => Object.fromEntries(headers.map((header, i) => [header, (values[i] || '').trim()])));
+}
+
+async function loadHubbleDatabase(){
+  if (!hubbleDataPromise){
+    hubbleDataPromise = fetch(HUBBLE_CSV_URL, {cache:'force-cache'}).then(async response => {
+      if (!response.ok) throw new Error('Não foi possível carregar a base Hubble30 (HTTP ' + response.status + ').');
+      return parseCsv(await response.text());
+    }).catch(error => { hubbleDataPromise = null; throw error; });
+  }
+  return hubbleDataPromise;
+}
+
+function dateKeyFromCsv(value){
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return '';
+  // A data da base vem no formato inglês "January 1 2019"; só usamos dia e mês.
+  return `${String(parsed.getUTCDate()).padStart(2,'0')}/${String(parsed.getUTCMonth()+1).padStart(2,'0')}`;
+}
+function getRecordForDate(records, date){ return records.find(item => dateKeyFromCsv(item.Date) === date); }
+function recordImage(item){ return HUBBLE_IMAGE_BASE + encodeURIComponent(item.Image || ''); }
+function recordTitle(item){ return item.Name || 'Objeto celeste do Hubble'; }
+function recordDescription(item){ return item.Caption || 'Imagem do arquivo de aniversário do Telescópio Espacial Hubble.'; }
+function recordSource(item){ return item.URL || 'https://imagine.gsfc.nasa.gov/docs/hst_bday/'; }
+
+async function showHubbleBirthday(rawDate){
+  let date;
+  try { date = normalizeBirthday(rawDate); }
+  catch (error) { out.innerHTML = `<div class="err">${esc(error.message)}</div>`; return; }
+
+  goBtn.disabled = true;
+  out.innerHTML = `<div class="spinner"></div><p class="center">Consultando o arquivo do Hubble para ${date}…</p>`;
+  try{
+    const records = await loadHubbleDatabase();
+    const item = getRecordForDate(records, date);
+    if (!item) throw new Error(`Não encontramos uma imagem para ${date} na base Hubble30.`);
+    const image = recordImage(item);
+    const title = recordTitle(item);
+    const description = recordDescription(item);
+    const source = recordSource(item);
+    if (!item.Image) throw new Error(`A entrada de ${date} não possui o arquivo da imagem.`);
+    out.innerHTML = `
+      <article class="apod-result">
+        <div class="apod-media">
+          <a class="zl" href="${esc(image)}" target="_blank" rel="noopener" aria-label="Abrir imagem do Hubble em tamanho grande">
+            <img src="${esc(image)}" alt="${esc(title)}" loading="lazy" referrerpolicy="no-referrer">
+          </a>
+          <span class="zoom"><i data-lucide="maximize-2"></i> Toque para ampliar</span>
+        </div>
+        <div class="apod-date"><i data-lucide="calendar-days" style="width:16px;height:16px"></i> Aniversário consultado: ${date}</div>
+        <h3 class="apod-title">${esc(title)}</h3>
+        <p class="apod-text">${esc(description)}</p>
+        <p class="apod-note">Base de dados Hubble30; imagem do arquivo de aniversário do Hubble. O ano informado pelo usuário não é usado na busca.</p>
+        <div class="apod-btns">
+          <a class="btn" href="${esc(image)}" target="_blank" rel="noopener"><i data-lucide="maximize"></i> Ver imagem</a>
+          <a class="btn ghost" href="${esc(source)}" target="_blank" rel="noopener"><i data-lucide="external-link"></i> Fonte / mais informações</a>
+        </div>
+      </article>`;
+    const img = out.querySelector('.apod-media img');
+    img.addEventListener('error', () => {
+      const media = img.closest('.apod-media');
+      media.innerHTML = `<div class="err" style="margin:14px">A imagem não carregou. <a href="${esc(source)}" target="_blank" rel="noopener">Abrir a fonte / mais informações</a>.</div>`;
+    }, {once:true});
+    icons();
+  }catch(error){
+    out.innerHTML = `<div class="err">${esc(error.message)}<p style="margin-top:8px">A consulta usa a base estática do Hubble30 no GitHub, sem a API APOD da NASA. É necessária conexão com a internet para carregar a base e a imagem.</p></div>`;
+  }finally{
+    goBtn.disabled = false;
+  }
+}
+
+$('#apodForm').addEventListener('submit', event => {
+  event.preventDefault();
+  showHubbleBirthday(dateEl.value);
+});
+$('#randBtn').addEventListener('click', () => {
+  const month = Math.floor(Math.random()*12)+1;
+  const max = [31,29,31,30,31,30,31,31,30,31,30,31][month-1];
+  const day = Math.floor(Math.random()*max)+1;
+  dateEl.value = `${String(day).padStart(2,'0')}/${String(month).padStart(2,'0')}`;
+  showHubbleBirthday(dateEl.value);
+});
+
+/* ================= PLANETAS ================= */
+const PLANETS = [
+  {n:'Mercúrio', bg:'radial-gradient(circle at 30% 28%,#e2dcd6,#8c8680 55%,#4a4642)', g:'rgba(200,190,180,.35)', dist:'57,9 milhões de km', temp:'−180 °C a 430 °C', dia:'Um dia dura ~59 dias terrestres', fun:'É o menor planeta e o mais rápido: dá a volta no Sol em apenas 88 dias.'},
+  {n:'Vênus', bg:'radial-gradient(circle at 30% 28%,#fbe2ae,#d9963a 55%,#7d4f1c)', g:'rgba(255,190,90,.4)', dist:'108,2 milhões de km', temp:'cerca de 465 °C', dia:'Um dia dura ~243 dias terrestres', fun:'Em Vênus, um dia dura mais que um ano (que tem ~225 dias terrestres). E ele gira ao contrário!'},
+  {n:'Terra', bg:'radial-gradient(circle at 30% 28%,#9bdcff,#2a74e6 50%,#0b2a66),radial-gradient(circle at 60% 60%,#2fbf71 0 18%,transparent 19%)', g:'rgba(80,160,255,.5)', dist:'149,6 milhões de km', temp:'média de 15 °C', dia:'Um dia dura 24 horas', fun:'É o único lugar do Universo, até agora, onde sabemos que existe vida. Cuide bem dele! 🌎'},
+  {n:'Marte', bg:'radial-gradient(circle at 30% 28%,#ffa781,#c1440e 55%,#5a1d08)', g:'rgba(255,100,60,.4)', dist:'227,9 milhões de km', temp:'média de −63 °C', dia:'Um dia dura ~24h 37min', fun:'Tem o Monte Olimpo, um vulcão com cerca de 22 km de altura — quase 3 vezes o Everest!'},
+  {n:'Júpiter', bg:'linear-gradient(180deg,transparent 18%,rgba(150,90,50,.55) 22% 30%,transparent 34% 48%,rgba(150,90,50,.5) 52% 60%,transparent 64%),radial-gradient(circle at 30% 28%,#f3dcc0,#c99a6a 55%,#6b4a2c)', g:'rgba(230,180,120,.4)', dist:'778,5 milhões de km', temp:'cerca de −110 °C (topo das nuvens)', dia:'Um dia dura ~10 horas', fun:'A Grande Mancha Vermelha é uma tempestade gigante que dura há mais de 300 anos e é maior que a Terra.'},
+  {n:'Saturno', ring:true, bg:'radial-gradient(circle at 30% 28%,#fbebbf,#d1ab62 55%,#7b5f2a)', g:'rgba(240,210,130,.4)', dist:'1,43 bilhão de km', temp:'cerca de −140 °C', dia:'Um dia dura ~10h 34min', fun:'É tão pouco denso que, se existisse uma banheira gigante, Saturno boiaria na água!'},
+  {n:'Urano', bg:'radial-gradient(circle at 30% 28%,#c8f7f7,#52d0d4 55%,#1e7f86)', g:'rgba(90,230,230,.4)', dist:'2,87 bilhões de km', temp:'cerca de −195 °C', dia:'Um dia dura ~17 horas', fun:'Gira "deitado", com inclinação de 98°, como uma bola rolando pela órbita.'},
+  {n:'Netuno', bg:'radial-gradient(circle at 30% 28%,#8fb0ff,#2f4fd8 55%,#10206b)', g:'rgba(80,110,255,.5)', dist:'4,5 bilhões de km', temp:'cerca de −200 °C', dia:'Um dia dura ~16 horas', fun:'Tem os ventos mais rápidos do Sistema Solar, que passam de 2.000 km/h.'},
+];
+$('#planets').innerHTML = PLANETS.map((p,i) => `
+  <div class="glass planet" id="pl${i}">
+    <button class="planet-head" aria-expanded="false" aria-controls="pd${i}">
+      <div class="sphere ${p.ring?'ring':''}" style="background:${p.bg};--g:${p.g}"></div>
+      <h3>${p.n}</h3>
+      <span class="hint"><span>Toque para abrir</span><i data-lucide="chevron-down"></i></span>
+    </button>
+    <div class="pdetail" id="pd${i}"><div>
+      <dl class="pinfo">
+        <dt>Distância do Sol</dt><dd>${p.dist}</dd>
+        <dt>Temperatura</dt><dd>${p.temp}</dd>
+        <dt>Duração do dia</dt><dd>${p.dia}</dd>
+        <div class="fun">⭐ ${p.fun}</div>
+      </dl>
+    </div></div>
+  </div>`).join('');
+document.querySelectorAll('.planet-head').forEach(b => b.addEventListener('click', () => {
+  const card = b.closest('.planet'); const open = card.classList.toggle('open');
+  b.setAttribute('aria-expanded', open);
+  b.querySelector('.hint span').textContent = open ? 'Toque para fechar' : 'Toque para abrir';
+}));
+
+/* peso em outros mundos (gravidade relativa à Terra) */
+const GRAV = [['Mercúrio',.38],['Vênus',.91],['Lua',.165],['Marte',.38],['Júpiter',2.53],['Saturno',1.07],['Urano',.89],['Netuno',1.14]];
+function calcWeight(){
+  const kg = parseFloat($('#kg').value.replace(',','.'));
+  const box = $('#wlist');
+  if (!kg || kg <= 0 || kg > 300){ box.innerHTML = '<div class="wi" style="grid-column:1/-1">Digite uma massa válida (1 a 300 kg).</div>'; return; }
+  box.innerHTML = [['Terra',1],...GRAV].map(([n,g]) => `<div class="wi"><span>${n}</span><b>${(kg*g).toFixed(1).replace('.',',')} kg</b></div>`).join('');
+}
+$('#kgBtn').addEventListener('click', calcWeight);
+$('#kg').addEventListener('keydown', e => { if (e.key === 'Enter') calcWeight(); });
+
+/* ================= CURIOSIDADES ================= */
+const FACTS = [
+  {front:'Dá para ouvir som no espaço?', back:'Não! No espaço não há ar para transportar o som. Lá, o silêncio é total.'},
+  {front:'Dia ou ano: o que é maior em Vênus?', back:'O dia! Vênus leva ~243 dias terrestres para girar e ~225 para dar a volta no Sol.'},
+  {front:'Quanto tempo a luz do Sol leva até nós?', back:'Cerca de 8 minutos e 20 segundos. Se o Sol apagasse, só perceberíamos depois disso!'},
+  {front:'Pegadas na Lua somem?', back:'Não. Sem vento nem chuva, as pegadas dos astronautas podem durar milhões de anos.'},
+  {front:'Quantas Terras cabem no Sol?', back:'Mais de 1 milhão de Terras cabem dentro do Sol. Ele tem ~99,8% da massa do Sistema Solar.'},
+  {front:'Astronautas ficam mais altos?', back:'Sim! Sem a gravidade comprimindo a coluna, eles crescem alguns centímetros no espaço (e voltam ao normal na Terra).'},
+  {front:'De que cor é o pôr do sol em Marte?', back:'Azulada! A poeira marciana espalha a luz de um jeito oposto ao da Terra.'},
+  {front:'Uma colher de estrela de nêutrons pesa quanto?', back:'Bilhões de toneladas! Essas estrelas são as coisas mais densas que conhecemos.'},
+];
+$('#facts').innerHTML = FACTS.map((f,i) => `
+  <button class="fact" aria-label="Revelar curiosidade ${i+1}">
+    <div class="fact-in">
+      <div class="face front"><i data-lucide="${['volume-x','sun','clock','footprints','circle-dot','ruler','sunset','weight'][i]}"></i>${f.front}</div>
+      <div class="face back">${f.back}</div>
+    </div>
+  </button>`).join('');
+document.querySelectorAll('.fact').forEach(b => b.addEventListener('click', () => b.classList.toggle('flip')));
+
+/* ================= QUIZ ================= */
+const QUIZ = [
+  {q:'Qual planeta é o mais próximo do Sol?', o:['Vênus','Mercúrio','Marte'], a:1, e:'Mercúrio é o mais próximo e o menor do Sistema Solar.'},
+  {q:'Quem foi o primeiro astronauta brasileiro?', o:['Victor Hespanha','Santos Dumont','Marcos Pontes'], a:2, e:'Marcos Pontes foi à ISS em 2006, na Missão Centenário.'},
+  {q:'Qual planeta tem os anéis mais famosos?', o:['Saturno','Marte','Mercúrio'], a:0, e:'Saturno tem anéis feitos de gelo e rochas.'},
+  {q:'O que acontece com o som no espaço?', o:['Fica mais grave','Não se propaga','Fica mais rápido'], a:1, e:'Sem ar, não há como o som viajar.'},
+  {q:'Qual telescópio espacial foi lançado em 2021 e observa o infravermelho?', o:['James Webb','Galileu','Apollo'], a:0, e:'O James Webb enxerga galáxias muito antigas e distantes.'},
+];
+let qi = 0, qs = 0;
+function renderQ(){
+  const box = $('#quizBox');
+  if (qi >= QUIZ.length){
+    const msg = qs === QUIZ.length ? 'Perfeito! Você é um(a) astronauta nota 10! 🏆' : qs >= 3 ? 'Muito bem! Quase um(a) comandante! 🚀' : 'Boa tentativa! Explore o site e tente de novo! 🌟';
+    box.innerHTML = `<div class="score"><div class="big">${qs}/${QUIZ.length}</div><p>${msg}</p><button class="btn" id="qRe" style="margin-top:16px"><i data-lucide="rotate-ccw"></i> Jogar de novo</button></div>`;
+    $('#qRe').onclick = () => { qi = 0; qs = 0; renderQ(); }; icons(); return;
+  }
+  const q = QUIZ[qi];
+  box.innerHTML = `
+    <div class="qbar"><i style="width:${qi/QUIZ.length*100}%"></i></div>
+    <p class="center" style="text-align:left;font-size:.8rem">Pergunta ${qi+1} de ${QUIZ.length}</p>
+    <p class="qq">${q.q}</p>
+    <div class="opts">${q.o.map((t,i) => `<button class="opt" data-i="${i}">${t}</button>`).join('')}</div>
+    <p class="qexp" id="qexp"></p>
+    <div id="qnext"></div>`;
+  box.querySelectorAll('.opt').forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i;
+    box.querySelectorAll('.opt').forEach(x => x.disabled = true);
+    box.querySelector(`.opt[data-i="${q.a}"]`).classList.add('ok');
+    if (i === q.a){ qs++; const r = b.getBoundingClientRect(); sparkle(r.left + r.width/2, r.top + r.height/2, 16); $('#qexp').textContent = '✅ Correto! ' + q.e; } else { b.classList.add('no'); $('#qexp').textContent = '❌ Quase! ' + q.e; }
+    $('#qnext').innerHTML = `<button class="btn qnext" id="qn">${qi === QUIZ.length-1 ? 'Ver resultado' : 'Próxima'} <i data-lucide="arrow-right"></i></button>`;
+    $('#qn').onclick = () => { qi++; renderQ(); }; icons();
+  }));
+}
+renderQ();
+
+/* ================= FOTOS DOS ASTRONAUTAS =================
+   Buscadas automaticamente na Wikipédia/Wikimedia Commons.
+   Para usar uma foto sua, coloque o arquivo na mesma pasta do site e preencha "photo" (ex.: photo:'marcos-pontes.jpg'). */
+const ASTRO = {
+  'Marcos Pontes':   {photo:'', q:'Marcos Pontes astronauta', must:'pontes'},
+  'Victor Hespanha': {photo:'', q:'Victor Hespanha', must:'hespanha'},
+};
+async function wikiPhoto(q, must){
+  for (const lang of ['pt', 'en']){
+    try{
+      const r = await fetch(`https://${lang}.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch=${encodeURIComponent(q)}&gsrlimit=4&prop=pageimages&piprop=thumbnail&pithumbsize=400`);
+      const j = await r.json();
+      const pages = Object.values(j.query?.pages || {}).sort((a, b) => a.index - b.index);
+      const p = pages.find(p => p.thumbnail && p.title.toLowerCase().includes(must));
+      if (p) return p.thumbnail.source;
+    }catch(e){}
+  }
+  return '';
+}
+document.querySelectorAll('.astro-photo').forEach(async el => {
+  const c = ASTRO[el.dataset.name]; if (!c) return;
+  const src = c.photo || await wikiPhoto(c.q, c.must);
+  if (!src) return; // sem foto: fica o avatar com as iniciais
+  const im = new Image(); im.alt = 'Foto de ' + el.dataset.name; im.referrerPolicy = 'no-referrer';
+  im.onload = () => el.appendChild(im);
+  im.src = src;
+});
+
+/* ================= VÍDEOS =================
+   Canais brasileiros de divulgação científica.
+   PARA TOCAR DENTRO DO SITE: no YouTube, abra o vídeo que escolher, copie o link
+   (ex.: https://www.youtube.com/watch?v=ABC123) e cole em "url" abaixo.
+   Enquanto "url" estiver vazio, o card abre a busca do vídeo no YouTube. */
+const VIDEOS = [
+  {channel:'Manual do Mundo', title:'Astronomia e espaço com o Manual do Mundo', desc:'Experimentos e explicações sobre o Universo, do maior canal de ciência em português.', url:'', q:'Manual do Mundo astronomia espaço'},
+  {channel:'Space Today', title:'5 coisas que você precisa saber sobre o Telescópio James Webb', desc:'Tudo sobre o maior e mais poderoso telescópio espacial já construído.', url:'', q:'Space Today 5 coisas que você precisa saber sobre o Telescópio Espacial James Webb'},
+  {channel:'Nerdologia', title:'A História da Estação Espacial Internacional (ISS)', desc:'Como nasceu o maior laboratório já construído fora da Terra.', url:'', q:'Nerdologia A História da Estação Espacial Internacional ISS'},
+  {channel:'Olhar Espacial · Olhar Digital', title:'As primeiras imagens do James Webb', desc:'Astrônomos brasileiros comentam as primeiras fotos do telescópio.', url:'', q:'Olhar Espacial Olhar Digital primeiras imagens James Webb'},
+  {channel:'Ciência Todo Dia', title:'Sistema Solar e planetas', desc:'Curiosidades sobre os planetas e o espaço, em linguagem simples.', url:'', q:'Ciência Todo Dia Sistema Solar planetas'},
+  {channel:'Olhar Digital', title:'Marcos Pontes e a Missão Centenário', desc:'A história do primeiro astronauta brasileiro rumo à ISS, em 2006.', url:'', q:'Olhar Digital Marcos Pontes primeiro astronauta brasileiro Missão Centenário'},
+];
+const ytId = s => { const m = String(s||'').match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([\w-]{11})|^([\w-]{11})$/); return m ? (m[1] || m[2]) : ''; };
+$('#vids').innerHTML = VIDEOS.map((v,i) => {
+  const id = ytId(v.url); v.id = id;
+  const yt = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(v.q);
+  const thumb = id ? `<img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy">` : `<span class="vname">${esc(v.channel)}</span>`;
+  return `<article class="glass vid">
+    <button class="vthumb" data-i="${i}" aria-label="Assistir: ${esc(v.title)}">${thumb}<span class="play"><span><i data-lucide="play" style="margin-left:3px"></i></span></span></button>
+    <div class="vbody"><span class="chan">${esc(v.channel)}</span><h3>${esc(v.title)}</h3><p>${esc(v.desc)}</p>${id ? '' : `<a href="${yt}" target="_blank" rel="noopener"><i data-lucide="external-link" style="width:14px;height:14px"></i> Assistir no YouTube</a>`}</div>
+  </article>`;
+}).join('');
+document.querySelectorAll('.vthumb').forEach(b => b.addEventListener('click', () => {
+  const v = VIDEOS[+b.dataset.i];
+  if (v.id){ b.outerHTML = `<div class="vthumb"><iframe src="https://www.youtube-nocookie.com/embed/${v.id}?autoplay=1&rel=0" title="${esc(v.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`; }
+  else window.open('https://www.youtube.com/results?search_query=' + encodeURIComponent(v.q), '_blank', 'noopener');
+}));
+
+/* ================= EXTRAS DE ANIMAÇÃO ================= */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// fagulhas (usadas ao tocar na tela, no ET e nos acertos do quiz)
+function sparkle(x, y, n = 10){
+  if (reduce) return;
+  const cols = ['#3be8ff', '#9b6bff', '#ff5fd2', '#ffd166', '#ffffff'];
+  for (let i = 0; i < n; i++){
+    const s = document.createElement('span'); s.className = 'spark';
+    const a = Math.random() * 6.283, d = 30 + Math.random() * 50;
+    s.style.cssText = `left:${x}px;top:${y}px;--c:${cols[i % cols.length]};--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d}px`;
+    document.body.appendChild(s); setTimeout(() => s.remove(), 800);
+  }
+}
+addEventListener('pointerdown', e => sparkle(e.clientX, e.clientY, 7));
+
+// barra de progresso da rolagem
+const prog = $('#progress');
+const onScroll = () => { const h = document.documentElement; prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight || 1) * 100) + '%'; };
+addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+// estrelas cadentes
+if (!reduce) setInterval(() => {
+  const s = document.createElement('div'); s.className = 'shoot';
+  s.style.left = (Math.random() * 60) + 'vw'; s.style.top = (Math.random() * 40) + 'vh';
+  document.body.appendChild(s); s.classList.add('go'); setTimeout(() => s.remove(), 1400);
+}, 3500);
+
+// aparecem em sequência (cards dos grids)
+document.querySelectorAll('.planets>*,.facts>*,.vids>*,.astro-grid>*,.br-grid>*,.wlist>*').forEach(el => {
+  const idx = [...el.parentNode.children].indexOf(el);
+  el.classList.add('rvc'); el.style.animationDelay = (idx * 90) + 'ms'; io.observe(el);
+});
+
+// contadores animados
+const cio = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return; cio.unobserve(e.target);
+  const el = e.target, to = parseFloat(el.dataset.to), dec = +(el.dataset.dec || 0), suf = el.dataset.suf || '';
+  const fmt = v => v.toLocaleString('pt-BR', {minimumFractionDigits:dec, maximumFractionDigits:dec}) + suf;
+  if (reduce){ el.textContent = fmt(to); return; }
+  const t0 = performance.now(), dur = 1600;
+  const tick = t => { const p = Math.min((t - t0) / dur, 1); el.textContent = fmt(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}), {threshold:.6});
+document.querySelectorAll('[data-to]').forEach(el => cio.observe(el));
+
+icons();
+</script>
+</body>
+</html>
