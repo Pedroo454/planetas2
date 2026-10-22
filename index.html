@@ -115,10 +115,10 @@ nav a:hover,nav a:active{color:#fff;border-color:var(--card-b);background:var(--
   padding:6px 11px;border-radius:99px;background:rgba(5,8,22,.78);border:1px solid var(--card-b);color:#fff;pointer-events:none;backdrop-filter:blur(6px)}
 .apod-media .zoom svg{width:14px;height:14px}
 .apod-media .ratio{padding-top:56.25%}
-.astro-photo{width:104px;height:104px;border-radius:50%;margin-bottom:12px;overflow:hidden;position:relative;
+.-photo{width:104px;height:104px;border-radius:50%;margin-bottom:12px;overflow:hidden;position:relative;
   border:2px solid var(--cyan);box-shadow:var(--glow-c);background:linear-gradient(145deg,#2a1a7a,#0e3b66);
   display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-size:1.5rem;color:#fff}
-.astro-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;animation:pop .6s ease both}
+.-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;animation:pop .6s ease both}
 .apod-media .ratio{position:relative;padding-top:56.25%}
 .apod-media iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .apod-date{margin-top:16px;color:var(--gold);font-weight:600;font-size:.9rem;display:flex;gap:8px;align-items:center}
@@ -841,7 +841,7 @@ renderQ();
    Para usar uma foto sua, coloque o arquivo na mesma pasta do site e preencha "photo" (ex.: photo:'marcos-pontes.jpg'). */
 const ASTRO = {
   'Marcos Pontes':   {photo:'', q:'Marcos Pontes astronauta', must:'pontes'},
-  'Victor Hespanha': {photo:'', q:'Victor Hespanha', must:'hespanha'},
+  'Victor Hespanha': {photo:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiLMGDC8sHFAGq96mT2mPKCJO82kzwKqJNlPiMbaqE73-Ej-NW7bacG-JC&s=10', q:'Victor Hespanha', must:'hespanha'},
 };
 async function wikiPhoto(q, must){
   for (const lang of ['pt', 'en']){
